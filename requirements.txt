@@ -1,0 +1,14 @@
+# NOTE: normally you want to pin to specific versions, but this makes it easier
+#       to upgrade to newer versions by recreating the venv.
+
+autopep8
+ipympl
+ipython
+ipywidgets
+isort
+jupyterlab
+matplotlib
+notebook
+numpy
+scipy
+scikit-learn
