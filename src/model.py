@@ -12,7 +12,7 @@ FloatArray: TypeAlias = npt.NDArray[Float]
 
 DATA_FILE_PATH: str = str(pathlib.Path().resolve()) + "/src/data.txt"
 
-NUM_TRAINING: int = 400  # First ~80% of data used for training, the rest used for model evaluation
+PERCENT_TRAINING: Float = np.float64(0.80)  # First ~80% of data used for training, the rest used for model evaluation
 POLY_DEGREE: int = 3  # The degree of the polynomial of the regression model
 REG_PARAM: Float = np.float64(0.5)  # Controls how much the model is punished for higher weights
 LEARNING_RATE: Float = np.float64(0.1)  # Determines how much the weights and bias are updated with each iteration
@@ -235,10 +235,11 @@ def main() -> None:
     feature_matrix = map_features(feature_matrix, POLY_DEGREE)
     feature_matrix, _, _ = zscore_normalize(feature_matrix)
 
-    training_features: FloatArray = feature_matrix[:NUM_TRAINING, :]
-    training_targets: FloatArray = target_vector[:NUM_TRAINING]
-    testing_features: FloatArray = feature_matrix[NUM_TRAINING:, :]
-    testing_targets: FloatArray = target_vector[NUM_TRAINING:]
+    num_training: int = round(PERCENT_TRAINING * feature_matrix.shape[0])
+    training_features: FloatArray = feature_matrix[:num_training, :]
+    training_targets: FloatArray = target_vector[:num_training]
+    testing_features: FloatArray = feature_matrix[num_training:, :]
+    testing_targets: FloatArray = target_vector[num_training:]
 
     # Train the model
     weights: FloatArray = np.zeros(training_features.shape[1])
