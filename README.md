@@ -14,7 +14,7 @@ While writing this `README.md`, I noticed that there were a few bugs with how Gi
 - Math text does not render if it contains `\begin{aligned}` or `\end{aligned}` which means I cannot align expressions on different lines.
 - `\\` and `\newline` do not seem to work, so math blocks are limited to one line each.
 
-If in the future, the math text fails to render correctly, it's likely because Github patched these bugs rendering my workarounds obsolete. In this case, I'll try and fix the math notation as soon as I notice the issue. Until then, I'll use the $\LaTeX$ functions/features that Github does display properly.
+If in the future, the math text fails to render correctly, it's likely because Github patched these bugs, rendering my workarounds for them obsolete. In that case, I'll try and fix the math notation as soon as I notice the issue. Until then, I suppose what I have at the moment will work.
 
 ### Model Function
 
