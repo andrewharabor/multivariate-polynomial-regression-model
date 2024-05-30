@@ -6,7 +6,7 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 ## The Details
 
-### A Quick Note About $\LaTeX$
+### A Quick Note About $\LaTeX$ and Github
 
 While writing this `README.md`, I noticed that there were a few bugs with how Github renders $\LaTeX$ math notation. Everything seemed to render correctly in my VSCode preview but when looking at the document in Github, some of the math notation failed to render.
 
