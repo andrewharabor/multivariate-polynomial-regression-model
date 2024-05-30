@@ -6,19 +6,9 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 ## The Details
 
-### A Quick Note About $\LaTeX$ and Github
-
-While writing this `README.md`, I noticed that there were a few bugs with how Github renders $\LaTeX$ math notation. Everything seemed to render correctly in my VSCode preview but when looking at the document in Github, some of the math notation failed to render.
-
-- Underscores within math text (both inline math and math blocks) are sometimes interpreted as italics rather than subscript.
-- Math text does not render if it contains `\begin{aligned}` or `\end{aligned}` which means I cannot align expressions on different lines.
-- `\\` and `\newline` do not seem to work, so math blocks are limited to one line each.
-
-If in the future, the math text fails to render correctly, it's likely because Github patched these bugs, rendering my workarounds for them obsolete. In that case, I'll try and fix the math notation as soon as I notice the issue. Until then, I suppose what I have at the moment will work.
-
 ### A Quick Note About This Section in General
 
-The explanations given here are far too lengthy given the simplicity of the model. I go through the theory behind my model and cover it far more "in-depth" than necessary. That being said, the takeaway is that this section is not meant to be read at all but more so a way for me to check my understanding of the concepts by explaining them.
+The explanations given here are far too lengthy given the simplicity of the model. I go through the theory behind the model and cover it far more "in-depth" than necessary. That being said, the takeaway is that this section is not meant to be read at all but more so meant a way for me to check my understanding of the concepts by explaining them.
 
 ### Model Function
 
@@ -29,7 +19,7 @@ For a multivariate linear regression model, there are multiple input features, w
 To accommodate a nonlinear associated between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as $$f\_{w,b}(\mathbf{x}^{(i)}) = w\_{1}\sqrt{x^{(i)}\_{1}} + w\_{2}x^{(i)}\_{1} + w\_{3}(x^{(i)}\_{1})^{2} + \dotsb + b$$ For this model in particular, we choose a degree $d$ and let our model be
 
 ``` math
-\begin{aligned} \boxed{f_{w,b}(\mathbf{x}^{(i)}) &= w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + _{d}(x^{(i)}_{1})^{d} \\ &+ w_{d+1}x^{(i)}_{2} + _{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} \\ &+ \dotsb \\ &+ w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} \\ &+ b} \end{aligned}
+\boxed{f_{w,b}(\mathbf{x}^{(i)}) &= w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + _{d}(x^{(i)}_{1})^{d} \\ &+ w_{d+1}x^{(i)}_{2} + _{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} \\ &+ \dotsb \\ &+ w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} \\ &+ b}
 ```
 
 Perhaps summation notation is more concise; we can write $$\boxed{f\_{w,b}(\mathbf{x}^{(i)}) = \sum\_{j=1}^{n}{\sum\_{k=1}^{d}{w\_{(j-1)d+k}(x^{(i)}\_{j})^{k}}} + b}$$ Of course, we could also combine different features together to create a term like $w\_{1}x^{(i)}\_{1}x^{(i)}\_{2}$ but the model I chose for this project does not do this, for the sake of simplicity.
