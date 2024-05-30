@@ -60,7 +60,7 @@ Of course, we could also combine different features together to create a term li
 
 ### Polynomial Feature Mapping
 
-The main downsides of defining our model function as polynomial such as the ones above is that they complicate our cost function (making its partial derivatives difficult to compute) and that it will take longer to compute the model's prediction (two summations means two `for`-loops which means $`\approx \text{O}(N\log(N))`$ time complexity).
+The main downsides of defining our model function as polynomial such as the ones above is that they complicate our cost function (making its partial derivatives difficult to compute) and that it will take longer to compute the model's prediction (two summations means two `for`-loops which means $`\approx \text{O}(N^{2})`$ time complexity).
 
 To solve this, map polynomial features to the raw input data and then perform linear regression. For example, if we wanted the feature $`(x^{(i)}_{j})^{3}`$, we would cube all the elements in column $`j`$ of matrix $`\mathbf{X}`$ and then perform linear regression.
 
@@ -74,10 +74,12 @@ From now on, we assume that our features have been mapped to polynomial ones and
 
 ### Data Normalization
 
-The goal of normalization is to get all input features within a similar range, typically one centered around $`0`$ and within a small interval like $`[-1, 1]`$. This is very useful during the gradient descent process as it ensures each iteration changes each parameter (about) equally  and increases the change of convergence to a minima.
+The goal of normalization is to get all input features within a similar range, typically one centered around $`0`$ and within a small interval like $`[-1, 1]`$. This is very useful during the gradient descent process as it ensures each iteration changes every parameter (about) equally  and increases the chance of convergence to a minima.
 
-There are many ways to do this but for this project, I chose z-score normalization. This is done by reassinging each $`x^{(i)}_{j}`$ to
+There are many ways to perform normalization but for this project, I chose z-score normalization. This is done by reassigning each $`x^{(i)}_{j}`$ to
 
 ``` math
 x^{(i)}_{j} := \frac{x^{(i)}_{j} - \mu_{j}}{\sigma_{j}}
 ```
+
+Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}`$ denotes the standard deviation of vector $`\mathbf{x}_{j}`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code).
