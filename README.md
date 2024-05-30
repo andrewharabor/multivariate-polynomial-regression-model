@@ -10,7 +10,7 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 While writing this `README.md`, I noticed that there were a few bugs with how Github renders $\LaTeX$ math notation. Everything seemed to render correctly in my VSCode preview but when looking at the document in Github, some of the math notation failed to render.
 
-- Underscores within math text (both inline math and math blocks) are interpreted as italics rather than subscript as $\LaTeX$ intends. For example: $x^{(i)}\_{j}$.
+- Underscores within math text (both inline math and math blocks) are interpreted as italics rather than subscript as $\LaTeX$ intends. For example: $x^{(i)}_{j}$.
 - Math text does not render if it contains `\begin{aligned}` or `\end{aligned}` which means I cannot align expressions on different lines.
 - `\\` and `\newline` do not seem to work, so math blocks are limited to one line each.
 
