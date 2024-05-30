@@ -29,7 +29,7 @@ For a multivariate linear regression model, there are multiple input features, w
 To accommodate a nonlinear associated between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as $$f\_{w,b}(\mathbf{x}^{(i)}) = w\_{1}\sqrt{x^{(i)}\_{1}} + w\_{2}x^{(i)}\_{1} + w\_{3}(x^{(i)}\_{1})^{2} + \dotsb + b$$ For this model in particular, we choose a degree $d$ and let our model be
 
 ``` math
-\boxed{f_{w,b}(\mathbf{x}^{(i)}) = w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + _{d}(x^{(i)}_{1})^{d} \\ + w_{d+1}x^{(i)}_{2} + _{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} \\ + \dotsb \\ + w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} \\ + b}
+\begin{aligned} \boxed{f_{w,b}(\mathbf{x}^{(i)}) &= w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + _{d}(x^{(i)}_{1})^{d} \\ &+ w_{d+1}x^{(i)}_{2} + _{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} \\ &+ \dotsb \\ &+ w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} \\ &+ b} \end{aligned}
 ```
 
 Perhaps summation notation is more concise; we can write $$\boxed{f\_{w,b}(\mathbf{x}^{(i)}) = \sum\_{j=1}^{n}{\sum\_{k=1}^{d}{w\_{(j-1)d+k}(x^{(i)}\_{j})^{k}}} + b}$$ Of course, we could also combine different features together to create a term like $w\_{1}x^{(i)}\_{1}x^{(i)}\_{2}$ but the model I chose for this project does not do this, for the sake of simplicity.
