@@ -8,11 +8,11 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 ### A Quick Note About This Section in General
 
-The explanations given here are far too lengthy given the simplicity of the model. I go through the theory behind the model and cover it far more "in-depth" than necessary. That being said, the takeaway is that this section is not meant to be read at all but more so meant a way for me to check my understanding of the concepts by explaining them.
+The explanations given here are far too lengthy given the simplicity of the model. I go through the theory and math behind the model and cover it far more "in-depth" than necessary. This section is mainly meant as a way for me to strengthen my understanding of the concepts by explaining them.
 
 ### Model Function
 
-Traditionally, a univariate linear regression model uses the function
+Of course, the goal of regression is to fit some line to a set of data. The model function represents that line and is what the model uses to make its predictions. Traditionally, a univariate linear regression model uses the function
 
 ``` math
 f_{w,b}(x^{(i)}) = wx^{(i)} + b
@@ -70,4 +70,14 @@ From now on, we assume that our features have been mapped to polynomial ones and
 
 ``` math
 \boxed{f_{w,b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b}
+```
+
+### Data Normalization
+
+The goal of normalization is to get all input features within a similar range, typically one centered around $`0`$ and within a small interval like $`[-1, 1]`$. This is very useful during the gradient descent process as it ensures each iteration changes each parameter (about) equally  and increases the change of convergence to a minima.
+
+There are many ways to do this but for this project, I chose z-score normalization. This is done by reassinging each $`x^{(i)}_{j}`$ to
+
+``` math
+x^{(i)}_{j} := \frac{x^{(i)}_{j} - \mu_{j}}{\sigma_{j}}
 ```
