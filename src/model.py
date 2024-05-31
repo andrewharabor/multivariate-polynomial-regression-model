@@ -10,7 +10,7 @@ import numpy.typing as npt
 Float: TypeAlias = np.float64
 FloatArray: TypeAlias = npt.NDArray[Float]
 
-DATA_FILE_PATH: str = str(pathlib.Path().resolve()) + "/src/data.txt"
+DATA_FILE_PATH: str = str(pathlib.Path().resolve()) + "/src/boston-house-prices.txt"
 
 PERCENT_TRAINING: Float = np.float64(0.80)  # First ~80% of data used for training, the rest used for model evaluation
 POLY_DEGREE: int = 3  # The degree of the polynomial of the regression model
