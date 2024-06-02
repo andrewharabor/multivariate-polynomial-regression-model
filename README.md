@@ -103,3 +103,9 @@ The cost function is defined as the average of the loss function across all exam
 ``` math
 \boxed{J(\mathbf{w}, b) = \frac{1}{m}\sum_{i=1}^{m}{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)})}}
 ```
+
+If we expand using the definition of the loss function and the definition of our model function, the cost function can be expressed as
+
+``` math
+\boxed{J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{\frac{1}{2}((\mathbf{w} \cdot \mathbf{x}^{(i)} + b) - y^{(i)})^{2}}}
+```
