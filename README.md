@@ -60,9 +60,7 @@ Of course, we could also combine different features together to create a term li
 
 ### Polynomial Feature Mapping
 
-The main downsides of defining our model function as polynomial such as the ones above is that they complicate our cost function (making its partial derivatives difficult to compute) and that it will take longer to compute the model's prediction (two summations means two `for`-loops which means $`\approx \text{O}(N^{2})`$ time complexity).
-
-To solve this, map polynomial features to the raw input data and then perform linear regression. For example, if we wanted the feature $`(x^{(i)}_{j})^{3}`$, we would cube all the elements in column $`j`$ of matrix $`\mathbf{X}`$ and then perform linear regression.
+The main downside of defining our model function as polynomial such as the ones above is that it complicates our cost function, making the gradients difficult to compute and limiting the amount of vectorization we can perform. To solve this, map polynomial features to the raw input data and then perform linear regression. For example, if we wanted the feature $`(x^{(i)}_{j})^{3}`$, we would cube all the elements in column $`j`$ of matrix $`\mathbf{X}`$ and then perform linear regression.
 
 For a quick explanation of why this works suppose we are dealing with univariate input data and have the points $`(2, 7)`$, $`(3, 27)`$, and $`(4, 65)`$ representing the feature and target values respectively. We notice that the data possesses a trend roughly matching that of a cubic polynomial. As such, we map the input features (by cubing them) to get the points $`(8, 7)`$, $`(27, 27)`$, and $`(64, 65)`$. Performing linear regression now yields an accurate model as the points are very close to the line $`y = x`$.
 
@@ -101,7 +99,7 @@ Just like with the data normalization function and other aspects of ML, there ar
 For the MSE cost function, we define the loss function as the error between predicted and expected values for a single example. Its formula is given by
 
 ``` math
-\boxed{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \frac{1}{2}(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})^{2}}
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \frac{1}{2}(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})^{2}
 ```
 
 where $`y^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example. Squaring the difference between $`f_{\mathbf{w},b}(\mathbf{x}^{(i)})`$ and $`y^{(i)}`$ ensures underestimates are punished just as much as overestimates while also placing greater emphasis on larger residuals.
@@ -138,8 +136,10 @@ In order to mitigate overfitting, the model should punished for having high valu
 \frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}} = \frac{\lambda}{2m}{||\mathbf{w}||}^{2}
 ```
 
-Where $`\lambda`$ denotes the regularization parameter that determines how much the model should be punished for higher weights. Note that the bias $`b`$ is not usually regularized. Our updated and final cost function is then
+where $`\lambda`$ denotes the regularization parameter (with $`\lambda > 0`$) that determines how much the model should be punished for higher weights. Just how the residuals are squared in the cost function, each weight is squared for the similar reasons. Note that the bias $`b`$ is not usually regularized. The updated and final cost function is then
 
 ``` math
 \boxed{J(\mathbf{w}, b) = \frac{1}{2m}(||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||^{2} + \lambda||\mathbf{w}||^{2})}
 ```
+
+### Gradient Descent
