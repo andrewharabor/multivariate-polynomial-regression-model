@@ -123,7 +123,7 @@ J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}
 By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
 
 ``` math
-J(\mathbf{w}, b) = \frac{1}{2m}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - mathbf{y})
+J(\mathbf{w}, b) = \frac{1}{2m}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})
 ```
 
 ### Overfitting and Regularization
