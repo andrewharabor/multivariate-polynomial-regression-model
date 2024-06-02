@@ -35,25 +35,25 @@ f_{w,b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{w_{j}x^{(i)}_{j}} + b
 More concisely, if we let vector $`\mathbf{w}`$ denote the weights for the model for each respective feature, then our function can be written as
 
 ``` math
-f_{w,b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b
 ```
 
 To accommodate a nonlinear association between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as
 
 ``` math
-f_{w,b}(\mathbf{x}^{(i)}) = w_{1}\sqrt{x^{(i)}_{1}} + w_{2}x^{(i)}_{1} + w_{3}(x^{(i)}_{1})^{2} + \dotsb + b
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = w_{1}\sqrt{x^{(i)}_{1}} + w_{2}x^{(i)}_{1} + w_{3}(x^{(i)}_{1})^{2} + \dotsb + b
 ```
 
 For this model in particular, we choose a degree $`d`$ and let our model be
 
 ``` math
-\boxed{f_{w,b}(\mathbf{x}^{(i)}) = w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + w_{d}(x^{(i)}_{1})^{d} + w_{d+1}x^{(i)}_{2} + w_{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} + \dotsb + w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} + b}
+\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = w_{1}x^{(i)}_{1} + w_{2}(x^{(i)}_{1})^{2} + \dotsb + w_{d}(x^{(i)}_{1})^{d} + w_{d+1}x^{(i)}_{2} + w_{d+2}(x^{(i)}_{2})^{2} + \dotsb + w_{2d}(x^{(i)}_{2})^{d} + \dotsb + w_{(n-1)d+1}x^{(i)}_{n} + w_{(n-1)d+2}(x^{(i)}_{n})^{2} + \dotsb + w_{nd}(x^{(i)}_{n})^{d} + b}
 ```
 
 Perhaps summation notation is more concise; we can write
 
 ``` math
-\boxed{f_{w,b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{\sum_{k=1}^{d}{w_{(j-1)d+k}(x^{(i)}_{j})^{k}}} + b}
+\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{\sum_{k=1}^{d}{w_{(j-1)d+k}(x^{(i)}_{j})^{k}}} + b}
 ```
 
 Of course, we could also combine different features together to create a term like $`w_{1}x^{(i)}_{1}x^{(i)}_{2}`$ but the model I chose for this project does not do this, for the sake of simplicity.
@@ -69,7 +69,7 @@ For a quick explanation of why this works suppose we are dealing with univariate
 From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the feature matrix as $`\mathbf{X}`$. Since we are now only concerned with linear regression, our model function can be rewritten as:
 
 ``` math
-\boxed{f_{w,b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b}
+\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b}
 ```
 
 ### Data Normalization
@@ -88,12 +88,12 @@ Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}
 
 With the data preprocessing out of the way, we can move on to the core of the regression algorithm.
 
-The cost function of choice for this project is the mean squared error or L2 cost function. Just like with the data normalization function and other aspects of ML, there are a wide variety of cost functions to choose from, each with their own benefits. For the sake of simplicity however, I chose the MSE cost function. It also has the very useful property that for regression problems, it is always convex, which means there is only one minima for gradient descent to converge to.
+Just like with the data normalization function and other aspects of ML, there are a wide variety of cost functions to choose from, each with their own benefits. For the sake of simplicity however, I chose the mean squared error cost function. It also has the very useful property that for regression problems, it is always convex, which means there is only one minima for gradient descent to converge to.
 
 For the MSE cost function, we define the loss function as the error between predicted and expected values for a single example. Its formula is given by
 
 ``` math
-L(f_{w,b}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)}) = \frac{1}{2}(f_{w,b}(\mathbf{x}^{(i)}) - \mathbf{y}^{(i)})^{2}
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)}) = \frac{1}{2}(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - \mathbf{y}^{(i)})^{2}
 ```
 
 where $`\mathbf{y}^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example.
