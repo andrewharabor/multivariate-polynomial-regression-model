@@ -123,15 +123,19 @@ J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}
 By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
 
 ``` math
-J(\mathbf{w}, b) = \frac{1}{2m}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})
+J(\mathbf{w}, b) = \frac{1}{2m}||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||
 ```
+
+where vector $`\mathbf{y}`$ denotes the expected target values.
 
 ### Overfitting and Regularization
 
 While the cost function defined above may work for simpler cases of multivariate regression, it is susceptible to overfitting. This is where the the model function is over-optimized to fit the training data. Especially with a higher degree polynomial, the cost on the training set may be minimized but it will likely not match more general trends in the data, meaning the model will perform poorly on any new examples it is tested on. While overfitting can be solved by using more training examples, this may not always be an option, hence the need for regularization.
 
-In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding a regularization term to our cost function.
+In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding a regularization term to our cost function
 
 ``` math
-\boxed{J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}} + \frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}}}
+\frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}}
 ```
+
+Where $`\lambda`$ denotes [TODO]
