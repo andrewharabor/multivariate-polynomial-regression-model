@@ -84,4 +84,16 @@ There are many ways to perform normalization but for this project, I chose z-sco
 
 Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}`$ denotes the standard deviation of vector $`\mathbf{x}_{j}`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code).
 
-### Cost Function
+### Loss and Cost Functions
+
+With the data preprocessing out of the way, we can move on to the core of the regression algorithm.
+
+The cost function of choice for this project is the mean squared error or L2 cost function. Just like with the data normalization function and other aspects of ML, there are a wide variety of cost functions to choose from, each with their own benefits. For the sake of simplicity however, I chose the MSE cost function. It also has the very useful property that for regression problems, it is always convex, which means there is only one minima for gradient descent to converge to.
+
+For the MSE cost function, we define the loss function as the error between predicted and expected values for a single example. Its formula is given by
+
+``` math
+L(f_{w,b}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)}) = \frac{1}{2}(f_{w,b}(\mathbf{x}^{(i)}) - \mathbf{y}^{(i)})^{2}
+```
+
+where $`\mathbf{y}^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example.
