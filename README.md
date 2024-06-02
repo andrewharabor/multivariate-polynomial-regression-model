@@ -93,7 +93,13 @@ Just like with the data normalization function and other aspects of ML, there ar
 For the MSE cost function, we define the loss function as the error between predicted and expected values for a single example. Its formula is given by
 
 ``` math
-L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), \mathbf{y}^{(i)}) = \frac{1}{2}(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - \mathbf{y}^{(i)})^{2}
+\boxed{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \frac{1}{2}(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})^{2}}
 ```
 
-where $`\mathbf{y}^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example.
+where $`y^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example. Squaring the difference between $`f_{\mathbf{w},b}(\mathbf{x}^{(i)})`$ and $`y^{(i)}`$ ensures underestimates are punished just as much as overestimates while also placing greater emphasis on larger residuals.
+
+The cost function is defined as the average of the loss function across all examples. It is given by
+
+``` math
+\boxed{J(\mathbf{w}, b) = \frac{1}{m}\sum_{i=1}^{m}{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)})}}
+```
