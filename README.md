@@ -123,10 +123,10 @@ J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}
 By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
 
 ``` math
-J(\mathbf{w}, b) = \frac{1}{2m}||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||
+J(\mathbf{w}, b) = \frac{1}{2m}||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||^{2}
 ```
 
-where vector $`\mathbf{y}`$ denotes the expected target values.
+where vector $`\mathbf{y}`$ denotes the expected target values and $`||\mathbf{v}||`$ denotes the L2 norm of vector $`\mathbf{v}`$. The vectorized cost function is much faster to compute by using NumPy but is pretty abusive of notation and therefore harder to understand (at least in my opinion). Nevertheless, we will continue using the vectorized implementation.
 
 ### Overfitting and Regularization
 
@@ -135,7 +135,7 @@ While the cost function defined above may work for simpler cases of multivariate
 In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding a regularization term to our cost function
 
 ``` math
-\frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}}
+\frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}} = \frac{\lambda}{2m}{||\mathbf{w}||}^{2}
 ```
 
 Where $`\lambda`$ denotes [TODO]
