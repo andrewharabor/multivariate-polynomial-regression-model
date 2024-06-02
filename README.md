@@ -35,7 +35,7 @@ f_{w,b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{w_{j}x^{(i)}_{j}} + b
 More concisely, if we let vector $`\mathbf{w}`$ denote the weights for the model for each respective feature, then our function can be written as
 
 ``` math
-f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b
 ```
 
 To accommodate a nonlinear association between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as
@@ -69,7 +69,7 @@ For a quick explanation of why this works suppose we are dealing with univariate
 From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the feature matrix as $`\mathbf{X}`$. Since we are now only concerned with linear regression, our model function can be rewritten as:
 
 ``` math
-\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w} \cdot \mathbf{x}^{(i)} + b}
+\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b}
 ```
 
 ### Data Normalization
@@ -98,14 +98,26 @@ For the MSE cost function, we define the loss function as the error between pred
 
 where $`y^{(i)}`$ denotes the actual/expected target value for the $`i^{\text{th}}`$ training example. Squaring the difference between $`f_{\mathbf{w},b}(\mathbf{x}^{(i)})`$ and $`y^{(i)}`$ ensures underestimates are punished just as much as overestimates while also placing greater emphasis on larger residuals.
 
+However, before moving on to
+
 The cost function is defined as the average of the loss function across all examples. It is given by
 
 ``` math
-\boxed{J(\mathbf{w}, b) = \frac{1}{m}\sum_{i=1}^{m}{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)})}}
+J(\mathbf{w}, b) = \frac{1}{m}\sum_{i=1}^{m}{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)})}
 ```
 
 If we expand using the definition of the loss function and the definition of our model function, the cost function can be expressed as
 
 ``` math
-\boxed{J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w} \cdot \mathbf{x}^{(i)} + b - y^{(i)})^{2}}}
+J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}}
+```
+
+### Overfitting and Regularization
+
+While the cost function defined above may work for simpler cases of multivariate regression, it is susceptible to overfitting. This is where the the model function is over-optimized to fit the training data. Especially with a higher degree polynomial, the cost on the training set may be minimized but it will likely not match more general trends in the data, meaning the model will perform poorly on any new examples it is tested on. While overfitting can be solved by using more training examples, this may not always be an option, hence the need for regularization.
+
+In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding a regularization term to our cost function.
+
+``` math
+\boxed{J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}} + \frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}}}
 ```
