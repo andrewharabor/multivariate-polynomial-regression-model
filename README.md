@@ -132,10 +132,14 @@ where vector $`\mathbf{y}`$ denotes the expected target values and $`||\mathbf{v
 
 While the cost function defined above may work for simpler cases of multivariate regression, it is susceptible to overfitting. This is where the the model function is over-optimized to fit the training data. Especially with a higher degree polynomial, the cost on the training set may be minimized but it will likely not match more general trends in the data, meaning the model will perform poorly on any new examples it is tested on. While overfitting can be solved by using more training examples, this may not always be an option, hence the need for regularization.
 
-In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding a regularization term to our cost function
+In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding the following regularization term to our cost function
 
 ``` math
 \frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}} = \frac{\lambda}{2m}{||\mathbf{w}||}^{2}
 ```
 
-Where $`\lambda`$ denotes [TODO]
+Where $`\lambda`$ denotes the regularization parameter that determines how much the model should be punished for higher weights. Note that the bias $`b`$ is not usually regularized. Our updated and final cost function is then
+
+``` math
+\boxed{J(\mathbf{w}, b) = \frac{1}{2m}(||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||^{2} + \lambda||\mathbf{w}||^{2})}
+```
