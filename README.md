@@ -20,7 +20,7 @@ f_{w,b}(x^{(i)}) = wx^{(i)} + b
 
 where $`x^{(i)}`$ denotes the $`i^{\text{th}}`$ input value and $`w`$ and $`b`$ denotes parameters of the model, namely the weight and bias repsectively.
 
-For a multivariate linear regression model, there are multiple input features, which we denote as matrix $`\mathbf{X}`$. Thus, vector $`\mathbf{x}^{(i)}`$ denotes the values of the features for the $`i^{\text{th}}`$ training example and vector $`\mathbf{x}_{j}`$ denotes the values for the $`j^{\text{th}}`$ feature across all training examples. (Note that all vectors are assumed to be column vectors.) Naturally, $`x^{(i)}_{j}`$ denotes the value of the $`j^{\text{th}}`$ feature for the $`i^{\text{th}}`$ training example. Typically, the features matrix $`\mathbf{X}`$ is typically in $`\reals^{m \times n}`$, where $`m`$ denotes the number of training examples and $`n`$ denotes the number of features. The function for a multivariate linear regression model would be
+For a multivariate linear regression model, there are multiple input features, which we denote as matrix $`\mathbf{X}`$. Thus, vector $`\mathbf{x}^{(i)}`$ denotes the values of the features for the $`i^{\text{th}}`$ training example and vector $`\mathbf{x}_{j}`$ denotes the values for the $`j^{\text{th}}`$ feature across all training examples. (Note that all vectors are assumed to be column vectors.) Naturally, $`x^{(i)}_{j}`$ denotes the value of the $`j^{\text{th}}`$ feature for the $`i^{\text{th}}`$ training example. Typically, the features matrix $`\mathbf{X}`$ is typically in $`\Reals^{m \times n}`$, where $`m`$ denotes the number of training examples and $`n`$ denotes the number of features. The function for a multivariate linear regression model would be
 
 ``` math
 f_{w,b}(\mathbf{x}^{(i)}) = w_{1}x^{(i)}_{1} + w_{2}x^{(i)}_{2}+ \dotsb + w_{n}x^{(i)}_{n} + b
@@ -44,7 +44,7 @@ Alternatively, we could have our function output a vector of predictions given t
 f_{\mathbf{w},\mathbf{b}}(\mathbf{X}) = \mathbf{X}\mathbf{w} + \mathbf{b}
 ```
 
-with $`\mathbf{b}`$ denoting the bias vector, with $`\mathbf{b} = b\mathbf{1}`$ where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\reals^{m \times 1} `$).
+with $`\mathbf{b}`$ denoting the bias vector, with $`\mathbf{b} = b\mathbf{1}`$ where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\Reals^{m \times 1} `$).
 
 To accommodate a nonlinear association between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as
 
