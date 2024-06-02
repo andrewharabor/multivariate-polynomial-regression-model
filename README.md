@@ -38,14 +38,6 @@ More concisely, if we let vector $`\mathbf{w}`$ denote the weights for the model
 f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b
 ```
 
-Alternatively, we could have our function output a vector of predictions given the entire data set if we defined it as
-
-``` math
-f_{\mathbf{w},\mathbf{b}}(\mathbf{X}) = \mathbf{X}\mathbf{w} + \mathbf{b}
-```
-
-with $`\mathbf{b}`$ denoting the bias vector, with $`\mathbf{b} = b\mathbf{1}`$ where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\mathbb{R}^{m \times 1} `$).
-
 To accommodate a nonlinear association between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as
 
 ``` math
@@ -79,6 +71,14 @@ From now on, we assume that our features have been mapped to polynomial ones and
 ``` math
 \boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b}
 ```
+
+Alternatively, we could have our function output a vector of predictions given the entire data set if we define it as
+
+``` math
+\boxed{f_{\mathbf{w},b}(\mathbf{X}) = \mathbf{X}\mathbf{w} + b\mathbf{1}}
+```
+
+where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\mathbb{R}^{m \times 1} `$). We distinguish between these two definitions of our model function based on whether its parameter is a matrix or a vector.
 
 ### Data Normalization
 
@@ -118,6 +118,12 @@ If we expand using the definition of the loss function and the definition of our
 
 ``` math
 J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}}
+```
+
+By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
+
+``` math
+J(\mathbf{w}, b) = \frac{1}{2m}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - mathbf{y})
 ```
 
 ### Overfitting and Regularization
