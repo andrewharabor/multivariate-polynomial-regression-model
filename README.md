@@ -153,11 +153,11 @@ The purpose of gradient descent is to "descend" down the cost function to a loca
 In order to this, we need the gradient of the cost function, which reveals the "direction" in which the function increases most steeply. By "going" in the opposite direciton, we "descend" down the cost function. To compute the gradient, we need the partial derivatives of the cost function with respect to its parameters. The partial derivatives are given by
 
 ``` math
-\frac{\partial J}{\partial w_{j}} = \frac{1}{m}\sum_{i=1}{m}{(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})x_{j}^{(i)}} + \frac{\lambda}{m}w_{j}
+\frac{\partial J}{\partial w_{j}} = \frac{1}^{m}\sum_{i=1}{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})x_{j}^{(i)}} + \frac{\lambda}{m}w_{j}
 ```
 
 and
 
 ``` math
-\frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}{m}{(f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)})}
+\frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})}
 ```
