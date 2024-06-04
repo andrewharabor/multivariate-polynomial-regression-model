@@ -165,7 +165,7 @@ and
 Of course, we can express these in a vectorized manner if we use $`f_{\mathbf{w},b}(\mathbf{X})`$ and then do a bit of linear algebra.
 
 ``` math
-\boxed{\frac{\partial J}{\partial \mathbf{w}} = \mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
+\boxed{\frac{\partial J}{\partial \mathbf{w}} = \frac{1}{m}(\mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
 ```
 
 ``` math
