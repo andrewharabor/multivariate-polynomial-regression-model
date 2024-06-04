@@ -94,7 +94,7 @@ Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}
 
 With the data preprocessing out of the way, we can move on to the core of the regression algorithm.
 
-Just like with the data normalization function and other aspects of ML, there are a wide variety of cost functions to choose from, each with their own benefits. For the sake of simplicity however, I chose the mean squared error cost function. It also has the very useful property that for regression problems, it is always convex, which means there is only one minima for gradient descent to converge to.
+Just like with the data normalization function and other aspects of ML, there are a wide variety of cost functions to choose from, each with their own benefits. For the sake of simplicity however, I chose the mean squared error (MSE) cost function. It also has the very useful property that for regression problems, it is always convex, which means there is only one minima for gradient descent to converge to.
 
 For the MSE cost function, we define the loss function as the error between predicted and expected values for a single example. Its formula is given by
 
@@ -192,4 +192,14 @@ It is important to note that the update steps should be performed simultaneously
 \boxed{b := b - \frac{\alpha}{m}\mathbf{1}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
 ```
 
-where $`\alpha`$ denotes the learning rate, which determines how fast the algorithm descends to a minima. While a small learning rate will cause the descent to proceed very slowly, a large learning rate will result in the algorithm failing to converge. For normalized data, typically $`0 < \alpha \le 1`$
+where $`\alpha`$ denotes the learning rate, which determines how fast the algorithm descends to a minima. While a small learning rate will cause the descent to proceed very slowly, a large learning rate will result in the algorithm failing to converge. For normalized data, typically $`0 < \alpha \le 1`$.
+
+### Model Evaluation
+
+With the inner workings of the model dissected, we are now concerned with evaluating our model.
+
+For this project in particular, I used the popular Boston House Prices Dataset which contains about 500 examples in total. I decided to split the data up such that 80% of it is used for training the model to find the optimal parameters while the other 20% is used for testing the model and seeing how well it might perform on new data. To quantify its performance, I settled on the very simple metric of mean absolute percent error (MAPE), which is given by the formula
+
+``` math
+\boxed{\epsilon_{MAPE} = \frac{100}{m}\sum_{i=1}^{m}{|\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}|}}
+```
