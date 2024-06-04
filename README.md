@@ -162,7 +162,7 @@ and
 \frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})}
 ```
 
-Of course, we can express these in a vectorized manner if we use $`f_{\mathbf{w},b}(\mathbf{X})`$ and then do a bit of linear algebra.
+Of course, we can express these in a vectorized manner if we use $`f_{\mathbf{w},b}(\mathbf{X})`$ in combination with a bit of linear algebra.
 
 ``` math
 \boxed{\frac{\partial J}{\partial \mathbf{w}} = \frac{1}{m}(\mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
@@ -170,4 +170,33 @@ Of course, we can express these in a vectorized manner if we use $`f_{\mathbf{w}
 
 ``` math
 \boxed{\frac{\partial J}{\partial b} = \frac{1}{m}\mathbf{1}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
+```
+
+Now that we have the partial derivatives, we can move on to the actual gradient descent process itself. This involves tens or hundreds of thousands of iterations with the following updates to the model's parameters at each step
+
+``` math
+\mathbf{w} := \mathbf{w} - \alpha \frac{\partial J}{\partial \mathbf{w}}
+```
+
+``` math
+b := b - \alpha \frac{\partial J}{\partial b}
+```
+
+It is important to note that the update steps should be performed simultaneously, that is the partial derivatives should both be computed before updating the respective parameters. More explicitly, the update steps can be expressed as
+
+``` math
+\boxed{\mathbf{w} := \mathbf{w} - \frac{\alpha}{m}(\mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
+```
+
+``` math
+\boxed{b := b - \frac{\alpha}{m}\mathbf{1}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
+```
+
+where $`\alpha`$ denotes the learning rate, which determines how fast the algorithm descends to a minima. While a small learning rate will cause the descent to proceed very slowly, a large learning rate will result in the algorithm failing to converge. For normalized data, typically $`0 < \alpha \le 1`$
+
+``` math
+\boxed{\text{Repeat {}
+\quad y = mx + b
+\text{}}
+}
 ```
