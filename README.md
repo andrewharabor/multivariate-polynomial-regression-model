@@ -201,5 +201,5 @@ With the inner workings of the model dissected, we are now concerned with evalua
 For this project in particular, I used the popular Boston House Prices Dataset which contains about 500 examples in total. I decided to split the data up such that 80% of it is used for training the model to find the optimal parameters while the other 20% is used for testing the model and seeing how well it might perform on new data. To quantify its performance, I settled on the very simple metric of mean absolute percent error (MAPE), which is given by the formula
 
 ``` math
-\boxed{\epsilon = \frac{100}{m}\sum_{i=1}^{m}{\vert\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}\vert}}
+\boxed{\epsilon = \frac{100}{m}\sum_{i=1}^{m}{\bigg\vert\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}\bigg\vert}}
 ```
