@@ -193,10 +193,3 @@ It is important to note that the update steps should be performed simultaneously
 ```
 
 where $`\alpha`$ denotes the learning rate, which determines how fast the algorithm descends to a minima. While a small learning rate will cause the descent to proceed very slowly, a large learning rate will result in the algorithm failing to converge. For normalized data, typically $`0 < \alpha \le 1`$
-
-``` math
-\boxed{\text{Repeat {}
-\quad y = mx + b
-\text{}}
-}
-```
