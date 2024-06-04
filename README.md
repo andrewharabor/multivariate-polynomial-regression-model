@@ -121,10 +121,10 @@ J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}
 By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
 
 ``` math
-J(\mathbf{w}, b) = \frac{1}{2m}||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||^{2}
+J(\mathbf{w}, b) = \frac{1}{2m}\Vert \mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}\Vert ^{2}
 ```
 
-where vector $`\mathbf{y}`$ denotes the expected target values and $`||\mathbf{v}||`$ denotes the L2 norm of vector $`\mathbf{v}`$. The vectorized cost function is much faster to compute by using NumPy but is pretty abusive of notation and therefore harder to understand (at least in my opinion). Nevertheless, we will continue using the vectorized implementation.
+where vector $`\mathbf{y}`$ denotes the expected target values and $`\Vert \mathbf{v}\Vert `$ denotes the L2 norm of vector $`\mathbf{v}`$. The vectorized cost function is much faster to compute by using NumPy but is pretty abusive of notation and therefore harder to understand (at least in my opinion). Nevertheless, we will continue using the vectorized implementation.
 
 ### Overfitting and Regularization
 
@@ -133,13 +133,13 @@ While the cost function defined above may work for simpler cases of multivariate
 In order to mitigate overfitting, the model should punished for having high values of the parameters in vector $`\mathbf{w}`$. This will reduce variance and result in a smoother curve described by the model function. We can implement this by adding the following regularization term to our cost function
 
 ``` math
-\frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}} = \frac{\lambda}{2m}{||\mathbf{w}||}^{2}
+\frac{\lambda}{2m}\sum_{j=1}^{n}{w_{j}^{2}} = \frac{\lambda}{2m}{\Vert \mathbf{w}\Vert }^{2}
 ```
 
 where $`\lambda`$ denotes the regularization parameter (with $`\lambda > 0`$) that determines how much the model should be punished for higher weights. Just how the residuals are squared in the cost function, each weight is squared for the similar reasons. Note that the bias $`b`$ is not usually regularized. The updated and final cost function is then
 
 ``` math
-\boxed{J(\mathbf{w}, b) = \frac{1}{2m}(||\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}||^{2} + \lambda||\mathbf{w}||^{2})}
+\boxed{J(\mathbf{w}, b) = \frac{1}{2m}(\Vert \mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}\Vert ^{2} + \lambda\Vert \mathbf{w}\Vert ^{2})}
 ```
 
 ### Gradient Descent
@@ -201,5 +201,5 @@ With the inner workings of the model dissected, we are now concerned with evalua
 For this project in particular, I used the popular Boston House Prices Dataset which contains about 500 examples in total. I decided to split the data up such that 80% of it is used for training the model to find the optimal parameters while the other 20% is used for testing the model and seeing how well it might perform on new data. To quantify its performance, I settled on the very simple metric of mean absolute percent error (MAPE), which is given by the formula
 
 ``` math
-\boxed{\epsilon_{MAPE} = \frac{100}{m}\sum_{i=1}^{m}{|\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}|}}
+\boxed{\epsilon = \frac{100}{m}\sum_{i=1}^{m}{\vert\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}\vert}}
 ```
