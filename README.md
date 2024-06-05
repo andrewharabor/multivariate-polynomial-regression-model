@@ -8,7 +8,7 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 ### A Brief Note About This Section
 
-This section is mainly meant as a way for me to strengthen my understanding of the concepts by explaining them. The explanations given here go into the theory and math behind the model and are far more lengthy than needed. The code for this project is self-documented and basic knowledge of machine learning should suffice in order to understand it.
+This section is mainly meant as a way for me to strengthen my understanding of the concepts by explaining them. The explanations given here go into the theory and math behind the model and are far more lengthy than needed. The code for this project is self-documented and basic knowledge of Machine Learning should suffice in order to understand it.
 
 ### Model Function
 
@@ -201,8 +201,16 @@ With the inner workings of the model dissected, we are now concerned with evalua
 For this project in particular, I used the popular Boston House Prices Dataset which contains about 500 examples in total. I decided to split the data up such that 80% of it is used for training the model to find the optimal parameters while the other 20% is used for testing the model and seeing how well it might perform on new data. To quantify its performance, I settled on the very simple metric of mean absolute percent error (MAPE), which is given by the formula
 
 ``` math
-\boxed{\epsilon = \frac{1}{m}\sum_{i=1}^{m}{\bigg\vert\frac{y^{(i)} - f_{\mathbf{w},b}(\mathbf{x}^{(i)})}{y^{(i)}}\bigg\vert}}
+\epsilon = \frac{1}{m}\sum_{i=1}^{m}{\bigg\vert\frac{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}}{y^{(i)}}\bigg\vert}
 ```
+
+While above is the traditional (statistics) formula for MAPE, we can vectorize it in the spirit of this project as
+
+``` math
+\boxed{\epsilon = \frac{1}{m} \Vert (\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) \oslash \mathbf{y} \Vert_{1}}
+```
+
+where $`\Vert \mathbf{v} \Vert_{1}`$ denotes the Taxicab/Manhattan/L1 norm of vector $`\mathbf{v}`$ and $`\oslash`$ denotes Hadamard (element-wise) division between two vectors.
 
 After running the program with different parameters (not $`\mathbf{w}`$ and $`b`$), I eventually found the following "optimal" settings for the model
 
@@ -218,6 +226,6 @@ d = 3
 \alpha = 0.1
 ```
 
-for the polynomial degree, regularization parameter, and learning rate respectively. (Granted, I may later change the values in `model.py` as I continue to tweak the model without updating this `README.md`.)
+for the polynomial degree, regularization parameter, and learning rate respectively. (Granted, I may later change the values in `model.py` without updating this `README.md` as I continue to tweak the model.)
 
-Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible though maybe some more advanced regression techniques could work.
+Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible. Alternatively, some more advanced regression techniques could potentially solve this problem.
