@@ -201,13 +201,13 @@ With the inner workings of the model dissected, we are now concerned with evalua
 For this project in particular, I used the popular Boston House Prices Dataset which contains about 500 examples in total. I decided to split the data up such that 80% of it is used for training the model to find the optimal parameters while the other 20% is used for testing the model and seeing how well it might perform on new data. To quantify its performance, I settled on the very simple metric of mean absolute percent error (MAPE), which is given by the formula
 
 ``` math
-\epsilon = \frac{1}{m}\sum_{i=1}^{m}{\bigg\vert\frac{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}}{y^{(i)}}\bigg\vert}
+\frac{1}{m}\sum_{i=1}^{m}{\bigg\vert\frac{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) - y^{(i)}}{y^{(i)}}\bigg\vert}
 ```
 
 While above is the traditional (statistics) formula for MAPE, we can vectorize it in the spirit of this project as
 
 ``` math
-\boxed{\epsilon = \frac{1}{m} \Vert (\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) \oslash \mathbf{y} \Vert_{1}}
+\boxed{\frac{1}{m} \Vert (\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) \oslash \mathbf{y} \Vert_{1}}
 ```
 
 where $`\Vert \mathbf{v} \Vert_{1}`$ denotes the Taxicab/Manhattan/L1 norm of vector $`\mathbf{v}`$ and $`\oslash`$ denotes Hadamard (element-wise) division between two vectors.
