@@ -64,13 +64,13 @@ The main downside of defining our model function as polynomial such as the ones 
 
 For a quick explanation of why this works suppose we are dealing with univariate input data and have the points $`(2, 7)`$, $`(3, 27)`$, and $`(4, 65)`$ representing the feature and target values respectively. We notice that the data possesses a trend roughly matching that of a cubic polynomial. As such, we map the input features (by cubing them) to get the points $`(8, 7)`$, $`(27, 27)`$, and $`(64, 65)`$. Performing linear regression now yields an accurate model as the points are very close to the line $`y = x`$.
 
-From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the features matrix as $`\mathbf{X}`$. As covered in the previous section, our new features matrix will consist of raising the elements old features matrix to every power between $`1`$ and $`d`$ inclusive and concatenating the resulting matrices together. (To clear up any confusion, this is done column-wise in the code in `model.py` but both yield the same result.) Mathematically, we can express this reassignment as
+From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the features matrix as $`\mathbf{X}`$ and the number of features as $`n`$. As covered in the previous section, our new features matrix will consist of raising the elements old features matrix to every power between $`1`$ and $`d`$ inclusive and concatenating the resulting matrices together. (To clear up any confusion, this is done column-wise in the code in `model.py` but both yield the same result.) Mathematically, we can express this reassignment as
 
 ``` math
 \boxed{\mathbf{X} := \mathbf{X} \vert \mathbf{X}^{\circ 2} \vert \mathbf{X}^{\circ 3} \vert \dotsb \vert \mathbf{X}^{\circ d}}
 ```
 
-where $`\mathbf{A} \vert \mathbf{B}`$ denotes augmenting (concatenating column-wise) the matrices $`\mathbf{A}`$ and $`\mathbf{B}`$ and $`\mathbf{A}^{\circ n}`$ denotes the matrix $`\mathbf{A}`$ raised to the Hadamard (element-wise) power of $`n`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code). If any of this caused more confusion about polynomial feature mapping or the model function for this project, I apologize; hopefully the code makes more sense.
+where $`\mathbf{A} \vert \mathbf{B}`$ denotes augmenting (concatenating column-wise) the matrices $`\mathbf{A}`$ and $`\mathbf{B}`$ while $`\mathbf{A}^{\circ k}`$ denotes the matrix $`\mathbf{A}`$ raised to the Hadamard (element-wise) power of $`k`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code). If any of this caused more confusion about polynomial feature mapping or the model function for this project, I apologize; hopefully the code makes more sense.
 
 Since we are now only concerned with linear regression, our model function can be rewritten as
 
