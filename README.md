@@ -35,7 +35,7 @@ f_{w,b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{w_{j}x^{(i)}_{j}} + b
 More concisely, if we let vector $`\mathbf{w}`$ denote the weights for the model for each respective feature, then our function can be written using the dot product.
 
 ``` math
-f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b
+f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\text{T}}\mathbf{x}^{(i)} + b
 ```
 
 To accommodate a nonlinear association between input features and target outputs, we require a polynomial regression model, which can be done by introducing polynomial terms into our model, such as
@@ -75,7 +75,7 @@ where $`\mathbf{A} \vert \mathbf{B}`$ denotes augmenting (concatenating column-w
 Since we are now only concerned with linear regression, our model function can be rewritten as
 
 ``` math
-\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b}
+\boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\text{T}}\mathbf{x}^{(i)} + b}
 ```
 
 Alternatively, we could have our function output a vector of predictions given the entire data set if we define it as
@@ -123,7 +123,7 @@ J(\mathbf{w}, b) = \frac{1}{m}\sum_{i=1}^{m}{L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}
 If we expand using the definition of the loss function and the definition of our model function, the cost function can be expressed as
 
 ``` math
-J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}}
+J(\mathbf{w}, b) = \frac{1}{2m}\sum_{i=1}^{m}{(\mathbf{w}^{\text{T}}\mathbf{x}^{(i)} + b - y^{(i)})^{2}}
 ```
 
 By using the definition $`f_{\mathbf{w},b}(\mathbf{X})`$ of our model function, we can vectorize the cost function as
@@ -161,23 +161,23 @@ The purpose of gradient descent is to "descend" down the cost function to a loca
 In order to this, we need the gradient of the cost function, which reveals the "direction" in which the function increases most steeply. By "going" in the opposite direction, we "descend" down the cost function. To compute the gradient, we need the partial derivatives of the cost function with respect to its parameters. The partial derivatives are given by
 
 ``` math
-\frac{\partial J}{\partial w_{j}} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})x_{j}^{(i)}} + \frac{\lambda}{m}w_{j}
+\frac{\partial J}{\partial w_{j}} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\text{T}}\mathbf{x}^{(i)} + b - y^{(i)})x_{j}^{(i)}} + \frac{\lambda}{m}w_{j}
 ```
 
 and
 
 ``` math
-\frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b - y^{(i)})}
+\frac{\partial J}{\partial b} = \frac{1}{m}\sum_{i=1}^{m}{(\mathbf{w}^{\text{T}}\mathbf{x}^{(i)} + b - y^{(i)})}
 ```
 
 Of course, we can express these in a vectorized manner if we use $`f_{\mathbf{w},b}(\mathbf{X})`$ in combination with a bit of linear algebra.
 
 ``` math
-\boxed{\frac{\partial J}{\partial \mathbf{w}} = \frac{1}{m}(\mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
+\boxed{\frac{\partial J}{\partial \mathbf{w}} = \frac{1}{m}(\mathbf{X}^{\text{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
 ```
 
 ``` math
-\boxed{\frac{\partial J}{\partial b} = \frac{1}{m}\mathbf{1}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
+\boxed{\frac{\partial J}{\partial b} = \frac{1}{m}\mathbf{1}^{\text{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
 ```
 
 Now that we have the partial derivatives, we can move on to the actual gradient descent process itself. This involves tens or hundreds of thousands of iterations with the following updates to the model's parameters at each step
@@ -193,11 +193,11 @@ b := b - \alpha \frac{\partial J}{\partial b}
 It is important to note that the update steps should be performed simultaneously, that is the partial derivatives should both be computed before updating the respective parameters. More explicitly, the update steps can be expressed as
 
 ``` math
-\boxed{\mathbf{w} := \mathbf{w} - \frac{\alpha}{m}(\mathbf{X}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
+\boxed{\mathbf{w} := \mathbf{w} - \frac{\alpha}{m}(\mathbf{X}^{\text{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) + \lambda \mathbf{w})}
 ```
 
 ``` math
-\boxed{b := b - \frac{\alpha}{m}\mathbf{1}^{\mathsf{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
+\boxed{b := b - \frac{\alpha}{m}\mathbf{1}^{\text{T}}(\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y})}
 ```
 
 where $`\alpha`$ denotes the learning rate, which determines how fast the algorithm descends to a minima. While a small learning rate will cause the descent to proceed very slowly, a large learning rate will result in the algorithm failing to converge. For normalized data, typically $`0 < \alpha \le 1`$.
@@ -237,3 +237,5 @@ d = 3
 for the polynomial degree, regularization parameter, and learning rate respectively. (Granted, I may later change the values in `model.py` without updating this `README.md` as I continue to tweak the model.)
 
 Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible. Alternatively, some more advanced regression techniques could potentially solve this problem.
+
+### The Normal Equation
