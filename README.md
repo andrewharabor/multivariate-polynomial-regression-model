@@ -56,7 +56,7 @@ Perhaps summation notation is more concise; we can write
 f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{\sum_{k=1}^{d}{w_{(j-1)d+k}(x^{(i)}_{j})^{k}}} + b
 ```
 
-(I know this model function is probably terribly confusing; I try to explain it better in the next section.) Of course, we could also combine different features together to create a term like $`w_{1}x^{(i)}_{1}x^{(i)}_{2}`$ but the model I chose for this project does not do this, for the sake of simplicity.
+(I know this model function is probably terribly confusing; I try to explain it better in the next subsection.) Of course, we could also combine different features together to create a term like $`w_{1}x^{(i)}_{1}x^{(i)}_{2}`$ but the model I chose for this project does not do this, for the sake of simplicity.
 
 ### Polynomial Feature Mapping
 
@@ -64,7 +64,7 @@ The main downside of defining our model function as polynomial such as the ones 
 
 For a quick explanation of why this works suppose we are dealing with univariate input data and have the points $`(2, 7)`$, $`(3, 27)`$, and $`(4, 65)`$ representing the feature and target values respectively. We notice that the data possesses a trend roughly matching that of a cubic polynomial. As such, we map the input features (by cubing them) to get the points $`(8, 7)`$, $`(27, 27)`$, and $`(64, 65)`$. Performing linear regression now yields an accurate model as the points are very close to the line $`y = x`$.
 
-From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the features matrix as $`\mathbf{X}`$ and the number of features as $`n`$. As covered in the previous section, our new features matrix will consist of raising the elements old features matrix to every power between $`1`$ and $`d`$ inclusive and concatenating the resulting matrices together. (To clear up any confusion, this is done column-wise in the code in `model.py` but both yield the same result.) Mathematically, we can express this reassignment as
+From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the features matrix as $`\mathbf{X}`$ and the number of features as $`n`$. As covered in the previous subsection, our new features matrix will consist of raising the elements old features matrix to every power between $`1`$ and $`d`$ inclusive and concatenating the resulting matrices together. (To clear up any confusion, this is done column-wise in the code in `model.py` but both yield the same result.) Mathematically, we can express this reassignment as
 
 ``` math
 \boxed{\mathbf{X} := \mathbf{X} \vert \mathbf{X}^{\circ 2} \vert \mathbf{X}^{\circ 3} \vert \dotsb \vert \mathbf{X}^{\circ d}}
@@ -239,3 +239,21 @@ for the polynomial degree, regularization parameter, and learning rate respectiv
 Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible. Alternatively, some more advanced regression techniques could potentially solve this problem.
 
 ### The Normal Equation
+
+This last subsection concerns the normal equation, which directly solves for the optimal parameters for the model. While this may sound much better than the entire gradient descent process just discussed, it can be too computationally intensive for large input values ($`O(n^{3})`$ time complexity). It also has limitations regarding the rank and invertibility of the features matrix $`\mathbf{X}`$, but I will not go into those subtleties here. Nevertheless, I include it for the sake of completeness. It is also in the code to show how close gradient descent got to achieving the truly optimal parameters. The normal equation can be derived through some multivariable calculus and linear algebra, and is given by
+
+``` math
+\boxed{\mathbf{w} = (\mathbf{X}^{\text{T}}\mathbf{X}+ \lambda \mathbf{I})^{-1}\mathbf{X}^{\text{T}}(\mathbf{y} - b\mathbf{1})}
+```
+
+This is actually a version of the normal equation modified for our specific cost function, which has the added bias parameter and regularization term. Typically in statistics, the cost function is given as
+
+``` math
+J(\mathbf{w}) = \Vert \mathbf{X}\mathbf{w} - \mathbf{y}\Vert ^{2}
+```
+
+and so the respective normal equation (the normal normal equation if you will) is
+
+``` math
+\mathbf{w} = (\mathbf{X}^{\text{T}}\mathbf{X})^{-1}\mathbf{X}^{\text{T}}\mathbf{y}
+```
