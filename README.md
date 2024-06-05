@@ -56,7 +56,7 @@ Perhaps summation notation is more concise; we can write
 f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \sum_{j=1}^{n}{\sum_{k=1}^{d}{w_{(j-1)d+k}(x^{(i)}_{j})^{k}}} + b
 ```
 
-Of course, we could also combine different features together to create a term like $`w_{1}x^{(i)}_{1}x^{(i)}_{2}`$ but the model I chose for this project does not do this, for the sake of simplicity.
+(I know this model function is probably terribly confusing; I try to explain it better in the next section.) Of course, we could also combine different features together to create a term like $`w_{1}x^{(i)}_{1}x^{(i)}_{2}`$ but the model I chose for this project does not do this, for the sake of simplicity.
 
 ### Polynomial Feature Mapping
 
@@ -64,7 +64,15 @@ The main downside of defining our model function as polynomial such as the ones 
 
 For a quick explanation of why this works suppose we are dealing with univariate input data and have the points $`(2, 7)`$, $`(3, 27)`$, and $`(4, 65)`$ representing the feature and target values respectively. We notice that the data possesses a trend roughly matching that of a cubic polynomial. As such, we map the input features (by cubing them) to get the points $`(8, 7)`$, $`(27, 27)`$, and $`(64, 65)`$. Performing linear regression now yields an accurate model as the points are very close to the line $`y = x`$.
 
-From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the feature matrix as $`\mathbf{X}`$. Since we are now only concerned with linear regression, our model function can be rewritten as
+From now on, we assume that our features have been mapped to polynomial ones and we continue to denote the features matrix as $`\mathbf{X}`$. As covered in the previous section, our new features matrix will consist of raising the elements old features matrix to every power between $`1`$ and $`d`$ inclusive and concatenating the resulting matrices together. (To clear up any confusion, this is done column-wise in the code in `model.py` but both yield the same result.) Mathematically, we can express this reassignment as
+
+``` math
+\boxed{\mathbf{X} := \mathbf{X} \vert \mathbf{X}^{\circ 2} \vert \mathbf{X}^{\circ 3} \vert \dotsb \vert \mathbf{X}^{\circ d}}
+```
+
+where $`\mathbf{A} \vert \mathbf{B}`$ denotes augmenting (concatenating column-wise) the matrices $`\mathbf{A}`$ and $`\mathbf{B}`$ and $`\mathbf{A}^{\circ n}`$ denotes the matrix $`\mathbf{A}`$ raised to the Hadamard (element-wise) power of $`n`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code). If any of this caused more confusion about polynomial feature mapping or the model function for this project, I apologize; hopefully the code makes more sense.
+
+Since we are now only concerned with linear regression, our model function can be rewritten as
 
 ``` math
 \boxed{f_{\mathbf{w},b}(\mathbf{x}^{(i)}) = \mathbf{w}^{\mathsf{T}}\mathbf{x}^{(i)} + b}
@@ -88,7 +96,7 @@ There are many ways to perform normalization but for this project, I chose z-sco
 \boxed{x^{(i)}_{j} := \frac{x^{(i)}_{j} - \mu_{j}}{\sigma_{j}}}
 ```
 
-Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}`$ denotes the standard deviation of vector $`\mathbf{x}_{j}`$. Note that here I use the definition operator $`:=`$ to denote a statement of assignment as opposed to a statement of equality (much like `=` versus `==` in code).
+Here, $`\mu_{j}`$ denotes the mean of vector $`\mathbf{x}_{j}`$ and $`\sigma_{j}`$ denotes the standard deviation of vector $`\mathbf{x}_{j}`$.
 
 ### Loss and Cost Functions
 
@@ -210,9 +218,9 @@ While above is the traditional (statistics) formula for MAPE, we can vectorize i
 \boxed{\frac{1}{m} \Vert (\mathbf{X}\mathbf{w} + b\mathbf{1} - \mathbf{y}) \oslash \mathbf{y} \Vert_{1}}
 ```
 
-where $`\Vert \mathbf{v} \Vert_{1}`$ denotes the Taxicab/Manhattan/L1 norm of vector $`\mathbf{v}`$ and $`\oslash`$ denotes Hadamard (element-wise) division between two vectors.
+where $`\Vert \mathbf{v} \Vert_{1}`$ denotes the Taxicab/Manhattan/L1 norm of vector $`\mathbf{v}`$ and $`\mathbf{v} \oslash \mathbf{u}`$ denotes Hadamard (element-wise) division between the vectors $`\mathbf{v}`$ and $`\mathbf{u}`$.
 
-After running the program with different parameters (not $`\mathbf{w}`$ and $`b`$), I eventually found the following "optimal" settings for the model
+After running the program with different parameters (I don't mean the model's parameters $`\mathbf{w}`$ and $`b`$), I eventually found the following "optimal" settings for the model
 
 ``` math
 d = 3
