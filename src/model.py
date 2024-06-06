@@ -244,8 +244,8 @@ def main() -> None:
     # Perform simple model evaluation
     training_mape: Float = npla.norm((model_prediction(training_features, weights, bias) - training_targets) / training_targets, ord=1) / training_features.shape[0]
     testing_mape: Float = npla.norm((model_prediction(testing_features, weights, bias) - testing_targets) / testing_targets, ord=1) / testing_features.shape[0]
-    print(f"Average percent error on training data: {training_mape * 100}%")
-    print(f"Average percent error on testing data: {testing_mape * 100}%")
+    print(f"Mean absolute percent error on training data: {training_mape * 100}%")
+    print(f"Mean absolute percent error on testing data: {testing_mape * 100}%")
 
 
 if __name__ == "__main__":
