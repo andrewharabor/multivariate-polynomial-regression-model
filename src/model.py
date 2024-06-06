@@ -5,6 +5,7 @@ import pathlib
 from typing import TypeAlias
 
 import numpy as np
+import numpy.linalg as npla
 import numpy.typing as npt
 
 Float: TypeAlias = np.float64
@@ -16,7 +17,7 @@ PERCENT_TRAINING: Float = np.float64(0.80)  # First ~80% of data used for traini
 POLY_DEGREE: int = 3  # The degree of the polynomial of the regression model
 REG_PARAM: Float = np.float64(0.5)  # Controls how much the model is punished for higher weights
 LEARNING_RATE: Float = np.float64(0.1)  # Determines how much the weights and bias are updated with each iteration
-ITERATIONS: int = 10000
+ITERATIONS: int = 100_000
 
 
 def read_data(file_name: str) -> tuple[FloatArray, FloatArray]:
@@ -28,7 +29,7 @@ def read_data(file_name: str) -> tuple[FloatArray, FloatArray]:
     `file_name: str` - The path of the file from which to read the data
 
     ### Return Values
-    `feature_matrix: FloatArray` - A 2D array containing the input features for training the model. Each row should
+    `features_matrix: FloatArray` - A 2D array containing the input features for training the model. Each row should
     represent an individual training example and each column should contain the values for a specific feature.
 
     `target_vector: FloatArray` - A 1D array containing the target values for each corresponding training example.
@@ -39,78 +40,75 @@ def read_data(file_name: str) -> tuple[FloatArray, FloatArray]:
     return data_matrix[:, :-1], data_matrix[:, -1]
 
 
-def map_features(feature_matrix: FloatArray, degree: int) -> FloatArray:
+def map_features(features_matrix: FloatArray, degree: int) -> FloatArray:
     """
     ### Description
     Map a set of linear features to polynomial ones.
 
     ### Parameters
-    `feature_matrix: FloatArray` - A 2D array containing the input features to be mapped. Each row should represent an
+    `features_matrix: FloatArray` - A 2D array containing the input features to be mapped. Each row should represent an
     individual training example and each column should contain the values for a specific feature.
 
     `degree: int` - The degree of the resulting polynomial; the highest power to map each feature to.
 
     ### Return Values
     `mapped_features: FloatArray` - A 2D array containing the newly mapped polynomial features. Each column in
-    `feature_matrix` is rasied to each power between 1 and `degree` inclusive. The resulting columns are concatenated
+    `features_matrix` is rasied to each power between 1 and `degree` inclusive. The resulting columns are concatenated
     together to form the `mapped_features` matrix.
     """
 
     columns: list[FloatArray] = []
-    for j in range(feature_matrix.shape[1]):
+    for j in range(features_matrix.shape[1]):
         for pow in range(1, degree + 1):
-            columns.append(feature_matrix[:, j] ** pow)
+            columns.append(features_matrix[:, j] ** pow)
     return np.column_stack(columns)
 
 
-def zscore_normalize(feature_matrix: FloatArray) -> tuple[FloatArray, FloatArray, FloatArray]:
+def zscore_normalize(features_matrix: FloatArray) -> FloatArray:
     """
     ### Description
     Perform z-score normalization.
 
     ### Parameters
-    `feature_matrix: FloatArray` - A 2D array containing the input features to be normalized. Each row should represent
+    `features_matrix: FloatArray` - A 2D array containing the input features to be normalized. Each row should represent
     an individual training example and each column should contain the values for a specific feature.
 
     ### Return Values
-    `norm_matrix: FloatArray` - A 2D array containing the normalized values from `feature_matrix`.
-
-    `mean: FloatArray` - A 1D array containing the mean of each column from `feature_matrix`.
-
-    `std_dev: FloatArray` - A 1D array containing the standard deviation of each column from `feature_matrix`.
+    `norm_matrix: FloatArray` - A 2D array containing the normalized values from `features_matrix`.
     """
 
-    mean: FloatArray = np.mean(feature_matrix, axis=0)
-    std_dev: FloatArray = np.std(feature_matrix, axis=0)
-    return ((feature_matrix - mean) / std_dev), mean, std_dev
+    mean: FloatArray = np.mean(features_matrix, axis=0)
+    std_dev: FloatArray = np.std(features_matrix, axis=0)
+    return ((features_matrix - mean) / std_dev)
 
 
-def model_prediction(example: FloatArray, weights: FloatArray, bias: Float) -> Float:
+def model_prediction(features_matrix: FloatArray, weights: FloatArray, bias: Float) -> FloatArray:
     """
     ### Description
-    The model's prediction of the output for a given input example.
+    The model's prediction of the output for all given examples.
 
     ### Parameters
-    `example: FloatArray` - A 1D array containing the values for each feature of a single example.
+    `features_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
+    example and each column should contain the values for a specific feature.
 
     `weights: FloatArray` - A 1D array containing parameters for the model to use for each corresponding feature.
 
     `bias: Float` - Another parameter of the model; represents the model's prediction when all input features are zero.
 
     ### Return Values
-    `prediction: Float` - The model's estimated target value.
+    `prediction_vector: Float` - The model's estimated target values for each respective example.
     """
 
-    return np.dot(example, weights) + bias
+    return features_matrix @ weights + bias
 
 
-def compute_cost(feature_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float) -> Float:
+def compute_cost(features_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float) -> Float:
     """
     ### Description
     Compute the mean squared-error cost function of the model.
 
     ### Parameters
-    `feature_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
+    `features_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
     example and each column should contain the values for a specific feature.
 
     `target_vector: FloatArray` - A 1D array containing the target values for each corresponding training example.
@@ -127,22 +125,18 @@ def compute_cost(feature_matrix: FloatArray, target_vector: FloatArray, weights:
     entire input dataset.
     """
 
-    num_examples: int = feature_matrix.shape[0]
-    cost: Float = np.float64(0.0)
-    for i in range(num_examples):
-        cost += (model_prediction(feature_matrix[i], weights, bias) - target_vector[i]) ** 2
-    cost /= 2 * num_examples
-    cost += (reg_param / (2 * num_examples)) * np.sum(weights ** 2)  # Add regularization term
-    return cost
+    loss_norm: Float = npla.norm(model_prediction(features_matrix, weights, bias) - target_vector) ** 2
+    reg_norm: Float =  reg_param * (npla.norm(weights) ** 2)
+    return (loss_norm + reg_norm) / (2 * features_matrix.shape[0])
 
 
-def compute_gradient(feature_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float) -> tuple[FloatArray, Float]:
+def compute_gradient(features_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float) -> tuple[FloatArray, Float]:
     """
     ### Description
-    Compute the gradient of the cost function, the direction of greatest decrease.
+    Compute the gradient of the cost function, the direction of greatest increase.
 
     ### Parameters
-    `feature_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
+    `features_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
     example and each column should contain the values for a specific feature.
 
     `target_vector: FloatArray` - A 1D array containing the target values for each corresponding training example.
@@ -155,34 +149,24 @@ def compute_gradient(feature_matrix: FloatArray, target_vector: FloatArray, weig
     used to mitigate overfitting.
 
     ### Return Values
-    `weights_gradients: FloatArray` - A 1D array containing the partial derivatives of the cost function with respect to
-    each weight.
+    `weights_derivatives: FloatArray` - A 1D array containing the partial derivatives of the cost function with respect
+    to each weight.
 
-    `bias_gradient: Float` - The partial derivative of the cost function with respect to the bias.
+    `bias_derivative: Float` - The partial derivative of the cost function with respect to the bias.
     """
 
-    num_examples: int
-    num_features: int
-    num_examples, num_features = feature_matrix.shape
-    weights_gradients: FloatArray = np.zeros(num_features)
-    bias_gradient: Float = np.float64(0.0)
-    for i in range(num_examples):
-        loss: Float = model_prediction(feature_matrix[i], weights, bias) - target_vector[i]
-        weights_gradients += loss * feature_matrix[i]
-        bias_gradient += loss
-    weights_gradients /= num_examples
-    weights_gradients += (reg_param / num_examples) * weights  # Add regularization term
-    bias_gradient /= num_examples
-    return weights_gradients, bias_gradient
+    weights_derivatives: FloatArray = (np.transpose(features_matrix) @ (model_prediction(features_matrix, weights, bias) - target_vector) + reg_param * weights) / features_matrix.shape[0]
+    bias_derivative: Float = np.sum(model_prediction(features_matrix, weights, bias) - target_vector) / features_matrix.shape[0]
+    return weights_derivatives, bias_derivative
 
 
-def gradient_descent(feature_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float, learning_rate: Float, iterations: int) -> tuple[FloatArray, Float]:
+def gradient_descent(features_matrix: FloatArray, target_vector: FloatArray, weights: FloatArray, bias: Float, reg_param: Float, learning_rate: Float, iterations: int) -> tuple[FloatArray, Float]:
     """
     ### Description
     Perform batch gradient descent to achieve optimal parameters for the model.
 
     ### Parameters
-    `feature_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
+    `features_matrix: FloatArray` - A 2D array containing input features. Each row should represent an individual training
     example and each column should contain the values for a specific feature.
 
     `target_vector: FloatArray` - A 1D array containing the target values for each corresponding training example.
@@ -205,13 +189,13 @@ def gradient_descent(feature_matrix: FloatArray, target_vector: FloatArray, weig
     """
 
     for iter in range(1, iterations + 1):
-        weights_gradients: FloatArray
-        bias_gradient: Float
-        weights_gradients, bias_gradient = compute_gradient(feature_matrix, target_vector, weights, bias, reg_param)
-        weights -= learning_rate * weights_gradients
-        bias -= learning_rate * bias_gradient
+        weights_derivatives: FloatArray
+        bias_derivative: Float
+        weights_derivatives, bias_derivative = compute_gradient(features_matrix, target_vector, weights, bias, reg_param)
+        weights -= learning_rate * weights_derivatives
+        bias -= learning_rate * bias_derivative
         if (iter % (iterations // 10) == 0):
-            print(f"Cost at iteration {iter}: {compute_cost(feature_matrix, target_vector, weights, bias, reg_param)}")
+            print(f"Cost at iteration {iter}: {compute_cost(features_matrix, target_vector, weights, bias, reg_param)}")
     return weights, bias
 
 
@@ -228,17 +212,16 @@ def main() -> None:
     """
 
     # Read data and preprocess
-    feature_matrix: FloatArray
+    features_matrix: FloatArray
     target_vector: FloatArray
-    feature_matrix, target_vector = read_data(DATA_FILE_PATH)
+    features_matrix, target_vector = read_data(DATA_FILE_PATH)
+    features_matrix = zscore_normalize(map_features(features_matrix, POLY_DEGREE))
 
-    feature_matrix = map_features(feature_matrix, POLY_DEGREE)
-    feature_matrix, _, _ = zscore_normalize(feature_matrix)
-
-    num_training: int = round(PERCENT_TRAINING * feature_matrix.shape[0])
-    training_features: FloatArray = feature_matrix[:num_training, :]
+    # Split training versus testing data
+    num_training: int = round(PERCENT_TRAINING * features_matrix.shape[0])
+    training_features: FloatArray = features_matrix[:num_training, :]
     training_targets: FloatArray = target_vector[:num_training]
-    testing_features: FloatArray = feature_matrix[num_training:, :]
+    testing_features: FloatArray = features_matrix[num_training:, :]
     testing_targets: FloatArray = target_vector[num_training:]
 
     # Train the model
@@ -258,16 +241,11 @@ def main() -> None:
     print(compute_cost(training_features, training_targets, weights, bias, REG_PARAM))
     print()
 
-    # Perform simple model evaluation, compare predictions to expected values
-    training_error: Float = np.float64(0.0)
-    for i in range(training_features.shape[0]):
-        training_error += abs((model_prediction(training_features[i], weights, bias) - training_targets[i]) / training_targets[i]) * 100
-    print(f"Average percent error on training data: {training_error / training_features.shape[0]}%")
-    testing_error: Float = np.float64(0.0)
-    for i in range(testing_features.shape[0]):
-        testing_error += abs((model_prediction(testing_features[i], weights, bias) - testing_targets[i]) / testing_targets[i]) * 100
-    print(f"Average percent error on testing data: {testing_error / testing_features.shape[0]}%")
-    print(f"Average percent error on all data: {(training_error + testing_error) / feature_matrix.shape[0]}%")
+    # Perform simple model evaluation
+    training_mape: Float = npla.norm((model_prediction(training_features, weights, bias) - training_targets) / training_targets, ord=1) / training_features.shape[0]
+    testing_mape: Float = npla.norm((model_prediction(testing_features, weights, bias) - testing_targets) / testing_targets, ord=1) / testing_features.shape[0]
+    print(f"Average percent error on training data: {training_mape * 100}%")
+    print(f"Average percent error on testing data: {testing_mape * 100}%")
 
 
 if __name__ == "__main__":
