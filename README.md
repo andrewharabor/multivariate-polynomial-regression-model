@@ -4,11 +4,17 @@
 
 This is a multivariate polynomial regression model written in Python and utilizing NumPy that I wrote after learning about the basics of Machine Learning.
 
-## The Details
+## The Code
+
+~~The code for this project is self-documented and basic knowledge of Machine Learning should suffice in order to understand it.~~
+
+_Correction:_ It turns out that vectorizing everything convoluted the code. The formulas should match those presented in the following section but thorough knowledge of linear algebra and intuition for Machine Learning is required to understand what is actually happening. The code is documented in a way that explains the high-level idea behind the functions but not the details about the computations they carry out. I tried to make things as readable as possible (i.e., avoid one-liners) but there's not much else I can do to document a complicated linear algebra formula.
+
+## The Theory and Math
 
 ### A Brief Note About This Section
 
-This section is mainly meant as a way for me to strengthen my understanding of the concepts by explaining them. The explanations given here go into the theory and math behind the model and are far more lengthy than needed. The code for this project is self-documented and basic knowledge of Machine Learning should suffice in order to understand it.
+This section is mainly meant as a way for me to strengthen my understanding of the concepts by explaining them. The explanations given here go into the theory and math behind the model and are far more lengthy than needed.
 
 ### Model Function
 
