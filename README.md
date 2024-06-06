@@ -8,7 +8,9 @@ This is a multivariate polynomial regression model written in Python and utilizi
 
 ~~The code for this project is self-documented and basic knowledge of Machine Learning should suffice in order to understand it.~~
 
-_Correction:_ It turns out that vectorizing everything convoluted the code. The formulas should match those presented in the following section but thorough knowledge of linear algebra and intuition for Machine Learning is required to understand what is actually happening. The code is documented in a way that explains the high-level idea behind the functions but not the details about the computations they carry out. I tried to make things as readable as possible (i.e., avoid one-liners) but there's not much else I can do to document a complicated linear algebra formula.
+_Correction:_ It turns out that vectorizing everything convoluted the code. The formulas should match those presented in the following section but thorough knowledge of linear algebra and intuition for Machine Learning is required to understand what is actually happening. The code is documented in a way that explains the high-level idea behind the functions but not the details about the computations they carry out. I tried to make things as readable as possible (i.e., avoid outright one-liners) but there's not much else I can do to document a complicated linear algebra formula.
+
+On the upside, after vectorizing everything, the code runs _way_ faster. For example, 100,000 iterations of gradient descent used to take a couple minutes but after vectorization, it typically runs in under 10 seconds.
 
 ## The Theory and Math
 
