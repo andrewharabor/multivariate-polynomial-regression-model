@@ -245,23 +245,3 @@ d = 3
 for the polynomial degree, regularization parameter, and learning rate respectively. (Granted, I may later change the values in `model.py` without updating this `README.md` as I continue to tweak the model.)
 
 Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible. Alternatively, some more advanced regression techniques could potentially solve this problem.
-
-### The Normal Equation
-
-This last subsection concerns the normal equation, which directly solves for the optimal parameters for the model. While this may sound much better than the entire gradient descent process just discussed, it can be too computationally intensive for large input values ($`O(n^{3})`$ time complexity). It also has limitations regarding the rank and invertibility of the features matrix $`\mathbf{X}`$, but I will not go into those subtleties here. Nevertheless, I include it for the sake of completeness. It is also in the code to show how close gradient descent got to achieving the truly optimal parameters. The normal equation can be derived through some multivariable calculus and linear algebra, and is given by
-
-``` math
-\boxed{\mathbf{w} = (\mathbf{X}^{\text{T}}\mathbf{X}+ \lambda \mathbf{I})^{-1}\mathbf{X}^{\text{T}}(\mathbf{y} - b\mathbf{1})}
-```
-
-This is actually a version of the normal equation modified for our specific cost function, which has the added bias parameter and regularization term. Typically in statistics, the cost function is given as
-
-``` math
-J(\mathbf{w}) = \Vert \mathbf{X}\mathbf{w} - \mathbf{y}\Vert ^{2}
-```
-
-and so the respective normal equation (the normal normal equation if you will) is
-
-``` math
-\mathbf{w} = (\mathbf{X}^{\text{T}}\mathbf{X})^{-1}\mathbf{X}^{\text{T}}\mathbf{y}
-```
