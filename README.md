@@ -245,3 +245,15 @@ d = 3
 for the polynomial degree, regularization parameter, and learning rate respectively. (Granted, I may later change the values in `model.py` without updating this `README.md` as I continue to tweak the model.)
 
 Overall, I found that the model performed with about 10% to 16% MAPE for both the training and testing data. I would like to get it below 10% but I suspect the variation in the dataset simply renders this impossible. Alternatively, some more advanced regression techniques could potentially solve this problem.
+
+## Final Thoughts
+
+Through this project, I was able to build a solid foundation in the basics of Machine Learning, namely regression problems. It was really helpful to write the code for the model from scratch and tweaking the settings (learning rate, regularization parameter, etc.) helped build intuition for things like convergence to a local minima and overfitting. Vectorizing everything proved to be a fun exercise and allowed me to apply my knowledge of linear alegbra. In addition, it was incredible to see how the code ran much faster when most of the computational "heavy-lifting" was done by NumPy. I hope to continue my journey through ML and this project served as an excellent launchpad for doing so.
+
+## Acknowledgements
+
+[Numpy](https://numpy.org/) - Heavily utilized throughout the project and immensely useful for speeding up linear algebra computations.
+
+[Coursera Machine Learning Specialization Course 1: Supervised Machine Learning: Regression and Classification](https://www.coursera.org/learn/machine-learning?specialization=machine-learning-introduction) - Taught me about regression in Machine Learning and was the main source of inspiration for this project; some of the math and code was adapted from this course.
+
+[Linear Regression (Multivariate). Cost Function. Hypothesis. Gradient](https://www.humanunsupervised.com/post/linear-regression-multivariate-cost-function-hypothesis-gradient) - Inspired the complete vectorization of computations in this project, some math formulas adapted from this webpage.
