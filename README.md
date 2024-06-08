@@ -92,7 +92,7 @@ Alternatively, we could have our function output a vector of predictions given t
 \boxed{f_{\mathbf{w},b}(\mathbf{X}) = \mathbf{X}\mathbf{w} + b\mathbf{1}}
 ```
 
-where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\mathbb{R}^{m \times 1} `$). We distinguish between these two definitions of our model function based on whether its parameter is a matrix or a vector.
+where $`\mathbf{1}`$ denotes the ones vector of appropriate size (in this case $`\mathbb{R}^{m \times 1} `$). We distinguish between these two definitions of our model function based on whether it is a function of a vector or a matrix.
 
 ### Data Normalization
 
